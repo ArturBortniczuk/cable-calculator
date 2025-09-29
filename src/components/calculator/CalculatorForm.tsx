@@ -1,5 +1,5 @@
 import React from 'react';
-import { Package, MapPin, Scissors, TrendingUp } from 'lucide-react';
+import { Package, MapPin, Scissors, TrendingUp, Sparkles } from 'lucide-react';
 import { Input, Button, Card } from '@/components/ui';
 import type { CalculatorFormData } from '@/types/calculator';
 
@@ -20,81 +20,105 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
 }) => {
   return (
     <Card title="Dane transakcji" icon={<Package className="w-6 h-6 text-indigo-600" />}>
-      <div className="space-y-4">
-        <Input
-          label="Cena sprzedaży netto (zł) *"
-          type="number"
-          name="cenaNetto"
-          value={formData.cenaNetto}
-          onChange={onInputChange}
-          placeholder="0.00"
-          step="0.01"
-          icon={<TrendingUp className="w-5 h-5" />}
-        />
+      <div className="space-y-5">
+        {/* Sekcja cen z gradientowym tłem */}
+        <div className="bg-gradient-to-br from-indigo-50 to-purple-50 p-5 rounded-xl border border-indigo-100 space-y-4 hover:shadow-md transition-shadow duration-300">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-lg">
+              <TrendingUp className="w-4 h-4 text-white" />
+            </div>
+            <h4 className="font-semibold text-gray-800">Wartości finansowe</h4>
+          </div>
+          
+          <Input
+            label="Cena sprzedaży netto (zł) *"
+            type="number"
+            name="cenaNetto"
+            value={formData.cenaNetto}
+            onChange={onInputChange}
+            placeholder="0.00"
+            step="0.01"
+            icon={<TrendingUp className="w-5 h-5" />}
+          />
 
-        <Input
-          label="Cena zakupu netto (zł) *"
-          type="number"
-          name="cenaZakupuNetto"
-          value={formData.cenaZakupuNetto}
-          onChange={onInputChange}
-          placeholder="0.00"
-          step="0.01"
-          icon={<Package className="w-5 h-5" />}
-        />
+          <Input
+            label="Cena zakupu netto (zł) *"
+            type="number"
+            name="cenaZakupuNetto"
+            value={formData.cenaZakupuNetto}
+            onChange={onInputChange}
+            placeholder="0.00"
+            step="0.01"
+            icon={<Package className="w-5 h-5" />}
+          />
 
-        <Input
-          label="Bonus (%)"
-          type="number"
-          name="bonus"
-          value={formData.bonus}
-          onChange={onInputChange}
-          placeholder="0"
-          step="0.1"
-        />
+          <Input
+            label="Bonus (%)"
+            type="number"
+            name="bonus"
+            value={formData.bonus}
+            onChange={onInputChange}
+            placeholder="0"
+            step="0.1"
+            icon={<Sparkles className="w-5 h-5" />}
+          />
+        </div>
 
-        <Input
-          label="Ilość cięć *"
-          type="number"
-          name="iloscCiec"
-          value={formData.iloscCiec}
-          onChange={onInputChange}
-          placeholder="0"
-          icon={<Scissors className="w-5 h-5" />}
-        />
+        {/* Sekcja logistyki */}
+        <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-5 rounded-xl border border-blue-100 space-y-4 hover:shadow-md transition-shadow duration-300">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg">
+              <Scissors className="w-4 h-4 text-white" />
+            </div>
+            <h4 className="font-semibold text-gray-800">Parametry logistyczne</h4>
+          </div>
 
-        <Input
-          label="Ilość bębnów *"
-          type="number"
-          name="iloscBebnow"
-          value={formData.iloscBebnow}
-          onChange={onInputChange}
-          placeholder="0"
-        />
+          <Input
+            label="Ilość cięć *"
+            type="number"
+            name="iloscCiec"
+            value={formData.iloscCiec}
+            onChange={onInputChange}
+            placeholder="0"
+            icon={<Scissors className="w-5 h-5" />}
+          />
 
-        <Input
-          label="Ilość kabla (m)"
-          type="number"
-          name="iloscKabla"
-          value={formData.iloscKabla}
-          onChange={onInputChange}
-          placeholder="0"
-        />
+          <Input
+            label="Ilość bębnów *"
+            type="number"
+            name="iloscBebnow"
+            value={formData.iloscBebnow}
+            onChange={onInputChange}
+            placeholder="0"
+          />
 
-        <Input
-          label="Producent"
-          type="text"
-          name="producent"
-          value={formData.producent}
-          onChange={onInputChange}
-          placeholder="Nazwa producenta"
-        />
+          <Input
+            label="Ilość kabla (m)"
+            type="number"
+            name="iloscKabla"
+            value={formData.iloscKabla}
+            onChange={onInputChange}
+            placeholder="0"
+          />
 
-        <div className="border-t pt-4 mt-6">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4 flex items-center">
-            <MapPin className="w-5 h-5 mr-2 text-indigo-600" />
-            Transport
-          </h3>
+          <Input
+            label="Producent"
+            type="text"
+            name="producent"
+            value={formData.producent}
+            onChange={onInputChange}
+            placeholder="Nazwa producenta"
+          />
+        </div>
+
+        {/* Sekcja transportu */}
+        <div className="bg-gradient-to-br from-emerald-50 to-teal-50 p-5 rounded-xl border border-emerald-100 space-y-4 hover:shadow-md transition-shadow duration-300">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="p-2 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg">
+              <MapPin className="w-4 h-4 text-white" />
+            </div>
+            <h4 className="font-semibold text-gray-800">Transport</h4>
+          </div>
 
           <Input
             label="Skąd wysyłka"
@@ -118,8 +142,11 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
         </div>
 
         {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-            <p className="text-red-700 text-sm">{error}</p>
+          <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded-lg animate-shake">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+              <p className="text-red-700 text-sm font-medium">{error}</p>
+            </div>
           </div>
         )}
 
@@ -127,9 +154,9 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
           variant="primary"
           onClick={onCalculate}
           loading={loading}
-          className="w-full mt-6"
+          className="w-full mt-6 text-lg py-4 shadow-lg hover:shadow-xl"
         >
-          Oblicz wynik
+          {loading ? 'Obliczam...' : '🚀 Oblicz wynik'}
         </Button>
       </div>
     </Card>
