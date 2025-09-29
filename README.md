@@ -1,4 +1,4 @@
-﻿# Kalkulator Kabli
+# Kalkulator Kabli
 
 Profesjonalna aplikacja Next.js do obliczania rentownosci transakcji kablowych.
 
