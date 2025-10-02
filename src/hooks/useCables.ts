@@ -34,13 +34,30 @@ export function useCables() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('/api/cables');
-      if (!response.ok) throw new Error('Failed to load cable types');
+      // Próbuj załadować z API
+      try {
+        const response = await fetch('/api/cables');
+        if (response.ok) {
+          const data = await response.json();
+          setCableTypes(data.cableTypes || []);
+          setLoading(false);
+          return;
+        }
+      } catch (apiError) {
+        console.warn('API nie działa, próbuję załadować z pliku JSON...');
+      }
+
+      // Fallback - załaduj bezpośrednio z pliku JSON
+      const response = await fetch('/data/cables.json');
+      if (!response.ok) throw new Error('Failed to load cable data');
       const data = await response.json();
-      setCableTypes(data.cableTypes);
+      setCableTypes(data.cableTypes || []);
     } catch (err) {
       setError('Nie udało się załadować typów kabli');
-      console.error(err);
+      console.error('Error loading cable types:', err);
+      
+      // Ultimate fallback - hardcoded data
+      setCableTypes(['YKY', 'YAKY', 'YAKXS', 'YDY', 'YDYp', 'N2XH', 'NAYY-J']);
     } finally {
       setLoading(false);
     }
@@ -50,13 +67,28 @@ export function useCables() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`/api/cables?type=${encodeURIComponent(type)}`);
-      if (!response.ok) throw new Error('Failed to load cable sections');
+      // Próbuj załadować z API
+      try {
+        const response = await fetch(`/api/cables?type=${encodeURIComponent(type)}`);
+        if (response.ok) {
+          const data = await response.json();
+          setSections(data.sections || []);
+          setLoading(false);
+          return;
+        }
+      } catch (apiError) {
+        console.warn('API nie działa, próbuję załadować z pliku JSON...');
+      }
+
+      // Fallback - załaduj bezpośrednio z pliku JSON
+      const response = await fetch('/data/cables.json');
+      if (!response.ok) throw new Error('Failed to load cable data');
       const data = await response.json();
-      setSections(data.sections);
+      setSections(data.cables[type] || []);
     } catch (err) {
       setError('Nie udało się załadować przekrojów');
-      console.error(err);
+      console.error('Error loading cable sections:', err);
+      setSections([]);
     } finally {
       setLoading(false);
     }

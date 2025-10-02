@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, AlertCircle, CheckCircle, Truck, Scissors, Sparkles, Target } from 'lucide-react';
+import { TrendingUp, AlertCircle, CheckCircle, Truck, Scissors, Sparkles, Target, Cable } from 'lucide-react';
 import { Card } from '@/components/ui';
 import type { CalculationResult } from '@/types/calculator';
 
@@ -28,6 +28,38 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
 
   return (
     <Card className="space-y-6 animate-fade-in">
+      {/* Informacje o kablu jeśli dostępne */}
+      {result.cableType && result.cableSection && (
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+          <h3 className="text-sm font-bold text-gray-700 mb-4 flex items-center gap-2 uppercase tracking-wider">
+            <Cable className="w-5 h-5 text-blue-600" />
+            Wybrany kabel
+          </h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-white p-3 rounded-lg">
+              <p className="text-xs text-gray-600 mb-1">Typ kabla</p>
+              <p className="text-lg font-bold text-indigo-600">{result.cableType}</p>
+            </div>
+            <div className="bg-white p-3 rounded-lg">
+              <p className="text-xs text-gray-600 mb-1">Przekrój</p>
+              <p className="text-lg font-bold text-indigo-600">{result.cableSection}</p>
+            </div>
+            {result.cableLength && (
+              <div className="bg-white p-3 rounded-lg">
+                <p className="text-xs text-gray-600 mb-1">Długość</p>
+                <p className="text-lg font-bold text-indigo-600">{result.cableLength} m</p>
+              </div>
+            )}
+            {result.cableMass && (
+              <div className="bg-white p-3 rounded-lg">
+                <p className="text-xs text-gray-600 mb-1">Masa kabla</p>
+                <p className="text-lg font-bold text-indigo-600">{result.cableMass.toFixed(1)} kg</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* Główny wynik z animacją */}
       <div className={`relative overflow-hidden rounded-2xl p-8 ${
         isProfit 

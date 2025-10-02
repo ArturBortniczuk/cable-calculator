@@ -11,6 +11,7 @@ export default function Home() {
     loading,
     error,
     handleInputChange,
+    updateCableData,
     calculate,
   } = useCalculator();
 

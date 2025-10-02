@@ -23,9 +23,38 @@ export interface CalculationResult {
   odbiorBebnow: number;
   bonusKwota: number;
   dystans?: number;
+  // Dodatkowe pola dla kabli
+  cableMass?: number;
+  cableLength?: number;
+  cableType?: string;
+  cableSection?: string;
+  drumEstimate?: {
+    minInnerDiameter: number;
+    estimatedDrums: number;
+    drumMass: number;
+  };
 }
 
 export interface ValidationError {
   field: string;
   message: string;
+}
+
+// Typy dla kabli
+export interface Cable {
+  id: string;
+  przekroj: string;
+  srednica_zewnetrzna: number;
+  promien_giecia: number;
+  masa_kg_km: number;
+  ksztalt?: string | null;
+}
+
+export interface CableData {
+  version: string;
+  totalVariants: number;
+  cableTypes: string[];
+  cables: {
+    [key: string]: Cable[];
+  };
 }
