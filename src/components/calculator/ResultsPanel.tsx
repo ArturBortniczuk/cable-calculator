@@ -53,7 +53,11 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({ result }) => {
             {result.cableMass && (
               <div className="bg-white p-3 rounded-lg">
                 <p className="text-xs text-gray-600 mb-1">Masa kabla</p>
-                <p className="text-lg font-bold text-indigo-600">{result.cableMass.toFixed(1)} kg</p>
+                <p className="text-lg font-bold text-indigo-600">
+                  {typeof result.cableMass === 'number' 
+                    ? result.cableMass.toFixed(1) 
+                    : parseFloat(String(result.cableMass)).toFixed(1)} kg
+                </p>
               </div>
             )}
           </div>

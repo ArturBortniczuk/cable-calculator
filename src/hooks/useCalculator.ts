@@ -73,10 +73,19 @@ export function useCalculator() {
       
       // Dodaj informacje o kablu do wyniku jeśli dostępne
       if (formData.cableMass && formData.iloscKabla) {
-        calculatedResult.cableMass = formData.cableMass;
-        calculatedResult.cableLength = parseFloat(formData.iloscKabla);
-        calculatedResult.cableType = formData.cableType;
-        calculatedResult.cableSection = formData.cableSection;
+        // Konwertuj na number jeśli to string
+        const cableMass = typeof formData.cableMass === 'string' 
+          ? parseFloat(formData.cableMass) 
+          : formData.cableMass;
+        
+        const cableLength = parseFloat(formData.iloscKabla);
+        
+        if (!isNaN(cableMass) && !isNaN(cableLength)) {
+          calculatedResult.cableMass = cableMass;
+          calculatedResult.cableLength = cableLength;
+          calculatedResult.cableType = formData.cableType;
+          calculatedResult.cableSection = formData.cableSection;
+        }
       }
       
       setResult(calculatedResult);

@@ -11,7 +11,7 @@ export interface CalculatorFormData {
   cableId?: string;
   cableType?: string;
   cableSection?: string;
-  cableMass?: number;
+  cableMass?: number | string; // Może być stringiem z formularza
 }
 
 export interface CalculationResult {
