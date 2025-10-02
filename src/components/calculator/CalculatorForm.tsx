@@ -37,16 +37,20 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
 
   // Obsługa wyboru kabla
   const handleCableSelection = (cable: any) => {
+    if (!cable) return;
+    
     setSelectedCable(cable);
     
-    // Oblicz masę kabla
-    const mass = cableLength ? (parseFloat(cableLength) / 1000) * cable.masa_kg_km : 0;
+    // Oblicz masę kabla tylko jeśli mamy długość i dane są poprawne
+    const mass = cableLength && cable.masa_kg_km && !isNaN(parseFloat(cableLength))
+      ? (parseFloat(cableLength) / 1000) * cable.masa_kg_km 
+      : 0;
     
     // Zaktualizuj dane kabla w formularzu poprzez syntetyczne eventy
     const updates = [
-      { name: 'cableId', value: cable.id },
-      { name: 'cableType', value: selectedType },
-      { name: 'cableSection', value: cable.przekroj },
+      { name: 'cableId', value: cable.id || '' },
+      { name: 'cableType', value: selectedType || '' },
+      { name: 'cableSection', value: cable.przekroj || '' },
       { name: 'cableMass', value: mass.toString() },
     ];
     
@@ -58,7 +62,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
     });
     
     // Automatyczne obliczenie ilości bębnów jeśli mamy długość kabla
-    if (cableLength && autoCalculateDrums) {
+    if (cableLength && autoCalculateDrums && !isNaN(parseFloat(cableLength))) {
       const estimatedDrums = Math.ceil(parseFloat(cableLength) / 750);
       setDrumCount(estimatedDrums.toString());
       
@@ -76,7 +80,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
     onInputChange(e);
 
     // Oblicz masę jeśli wybrany kabel
-    if (selectedCable && length) {
+    if (selectedCable && selectedCable.masa_kg_km && length && !isNaN(parseFloat(length))) {
       const mass = (parseFloat(length) / 1000) * selectedCable.masa_kg_km;
       const syntheticEvent = {
         target: { name: 'cableMass', value: mass.toString() }
@@ -85,7 +89,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
     }
 
     // Auto-oblicz ilość bębnów
-    if (length && selectedCable && autoCalculateDrums) {
+    if (length && selectedCable && autoCalculateDrums && !isNaN(parseFloat(length))) {
       const estimatedDrums = Math.ceil(parseFloat(length) / 750);
       setDrumCount(estimatedDrums.toString());
       
@@ -155,7 +159,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
                 checked={autoCalculateDrums}
                 onChange={(e) => {
                   setAutoCalculateDrums(e.target.checked);
-                  if (e.target.checked && cableLength && selectedCable) {
+                  if (e.target.checked && cableLength && selectedCable && !isNaN(parseFloat(cableLength))) {
                     const estimatedDrums = Math.ceil(parseFloat(cableLength) / 750);
                     setDrumCount(estimatedDrums.toString());
                     const syntheticEvent = {
@@ -182,7 +186,7 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
             />
 
             {/* Podsumowanie obliczeń kabla */}
-            {cableLength && selectedCable && (
+            {cableLength && selectedCable && selectedCable.masa_kg_km && !isNaN(parseFloat(cableLength)) && (
               <div className="mt-4 p-4 bg-white rounded-lg border border-blue-200">
                 <h5 className="font-semibold text-gray-800 mb-3">Automatyczne obliczenia:</h5>
                 <div className="text-sm text-gray-600 space-y-2">
@@ -198,12 +202,14 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
                       {Math.ceil(parseFloat(cableLength) / 750)} szt.
                     </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Min. średnica wewnętrzna bębna:</span>
-                    <span className="font-bold text-indigo-600">
-                      {(selectedCable.promien_giecia * 2).toFixed(1)} cm
-                    </span>
-                  </div>
+                  {selectedCable.promien_giecia && (
+                    <div className="flex justify-between">
+                      <span>Min. średnica wewnętrzna bębna:</span>
+                      <span className="font-bold text-indigo-600">
+                        {(selectedCable.promien_giecia * 2).toFixed(1)} cm
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
