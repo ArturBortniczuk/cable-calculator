@@ -67,48 +67,6 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
       } as React.ChangeEvent<HTMLInputElement>;
       onInputChange(syntheticEvent);
     }
-  }; => void;
-  loading: boolean;
-  error: string | null;
-}
-
-export const CalculatorForm: React.FC<CalculatorFormProps> = ({
-  formData,
-  onInputChange,
-  onCalculate,
-  loading,
-  error,
-}) => {
-  // Hook do zarządzania kablami
-  const {
-    cableTypes,
-    selectedType,
-    setSelectedType,
-    sections,
-    loading: cablesLoading,
-    error: cablesError,
-  } = useCables();
-
-  const [selectedCable, setSelectedCable] = React.useState<any>(null);
-  const [cableLength, setCableLength] = React.useState('');
-  const [drumCount, setDrumCount] = React.useState('');
-  const [autoCalculateDrums, setAutoCalculateDrums] = React.useState(true);
-
-  // Obsługa wyboru kabla
-  const handleCableSelection = (cable: any) => {
-    setSelectedCable(cable);
-    
-    // Automatyczne obliczenie ilości bębnów jeśli mamy długość kabla
-    if (cableLength && autoCalculateDrums) {
-      const estimatedDrums = Math.ceil(parseFloat(cableLength) / 750);
-      setDrumCount(estimatedDrums.toString());
-      
-      // Zaktualizuj formData
-      const syntheticEvent = {
-        target: { name: 'iloscBebnow', value: estimatedDrums.toString() }
-      } as React.ChangeEvent<HTMLInputElement>;
-      onInputChange(syntheticEvent);
-    }
   };
 
   // Obsługa zmiany długości kabla
@@ -116,6 +74,15 @@ export const CalculatorForm: React.FC<CalculatorFormProps> = ({
     const length = e.target.value;
     setCableLength(length);
     onInputChange(e);
+
+    // Oblicz masę jeśli wybrany kabel
+    if (selectedCable && length) {
+      const mass = (parseFloat(length) / 1000) * selectedCable.masa_kg_km;
+      const syntheticEvent = {
+        target: { name: 'cableMass', value: mass.toString() }
+      } as React.ChangeEvent<HTMLInputElement>;
+      onInputChange(syntheticEvent);
+    }
 
     // Auto-oblicz ilość bębnów
     if (length && selectedCable && autoCalculateDrums) {

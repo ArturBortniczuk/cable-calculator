@@ -19,7 +19,7 @@ const initialFormData: CalculatorFormData = {
   cableMass: 0,
 };
 
-export function useCalculator() { function useCalculator() {
+export function useCalculator() {
   const [formData, setFormData] = useState<CalculatorFormData>(initialFormData);
   const [result, setResult] = useState<CalculationResult | null>(null);
   const [loading, setLoading] = useState(false);
