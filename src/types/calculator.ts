@@ -8,6 +8,10 @@ export interface CalculatorFormData {
   skadWysylka: string;
   iloscKabla: string;
   producent: string;
+  cableId?: string;
+  cableType?: string;
+  cableSection?: string;
+  cableMass?: number;
 }
 
 export interface CalculationResult {
